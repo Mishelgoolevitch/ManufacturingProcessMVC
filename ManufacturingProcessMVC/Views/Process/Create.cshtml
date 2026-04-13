@@ -1,0 +1,85 @@
+﻿@using ManufacturingProcessMVC.ViewModels
+@model CreateProcessViewModel
+<span style="color: hsl(var(--primary)); font-weight: 500;"></span>
+
+@{
+    ViewData["Title"] = "Создать новый процесс";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi-plus-circle"></i> <span style="color: hsl(var(--primary)); font-weight: 500;">@ViewData</span>["Title"]
+                    </h3>
+                </div>
+                
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        [Html.AntiForgeryToken](workspace://Html.AntiForgeryToken)()
+                        
+                        <div class="mb-3">
+                            <label asp-for="ProcessName" class="form-label">
+                                <i class="bi-pencil"></i> Название процесса (опционально)
+                            </label>
+                            <input asp-for="ProcessName" class="form-control" 
+                                   placeholder="Введите название процесса...">
+                            <span asp-validation-for="ProcessName" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="SelectedDrillId" class="form-label">
+                                    <i class="bi-tools"></i> Выберите сверло
+                                </label>
+                                <select asp-for="SelectedDrillId" class="form-select" 
+                                        asp-items="@(new SelectList(Model.Drills, "Id", "DisplayName"))">
+                                    <option value="">-- Выберите сверло --</option>
+                                </select>
+                                <span asp-validation-for="SelectedDrillId" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="SelectedTapId" class="form-label">
+                                    <i class="bi-nut"></i> Выберите метчик
+                                </label>
+                                <select asp-for="SelectedTapId" class="form-select" 
+                                        asp-items="@(new SelectList(Model.Taps, "Id", "DisplayName"))">
+                                    <option value="">-- Выберите метчик --</option>
+                                </select>
+                                <span asp-validation-for="SelectedTapId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <h5><i class="bi-info-circle"></i> Информация о процессе:</h5>
+                            <ul class="mb-0">
+                                <li>Сначала будет выполнено сверление выбранным сверлом</li>
+                                <li>Затем будет нарезана резьба выбранным метчиком</li>
+                                <li>Процесс можно будет выполнить после создания</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi-arrow-left"></i> Назад к списку
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi-check-circle"></i> Создать процесс
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<span style="color: hsl(var(--primary)); font-weight: 500;"></span>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
