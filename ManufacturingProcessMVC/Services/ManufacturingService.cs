@@ -1,6 +1,7 @@
 ﻿using ManufacturingProcessMVC.Data;
 using ManufacturingProcessMVC.Data.Repositories;
 using ManufacturingProcessMVC.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ManufacturingProcessMVC.Services
 {
@@ -45,6 +46,13 @@ namespace ManufacturingProcessMVC.Services
         Task<IEnumerable<ManufacturingProcess>> IManufacturingService.GetAllProcessesAsync()
         {
             throw new NotImplementedException();
+        }
+        public async Task<ManufacturingProcess?> GetProcessByIdAsync(int id)
+        {
+            return await _context.Processes
+                .Include(p => p.Drill)
+                .Include(p => p.Tap)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
     }

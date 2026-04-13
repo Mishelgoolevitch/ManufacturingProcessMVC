@@ -1,45 +1,48 @@
-﻿using ManufacturingProcessMVC.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using ManufacturingProcessMVC.Models;
+using ManufacturingProcessMVC.Data;
 
 namespace ManufacturingProcessMVC.Data.Repositories
 {
     public class InstrumentRepository: IInstrumentRepository
     {
         private readonly ApplicationDbContext _context;
-
+        
         public InstrumentRepository(ApplicationDbContext context)
         {
             _context = context;
         }
-
-        public Task AddDrillAsync(Drill drill)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task AddTapAsync(Tap tap)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public async Task<IEnumerable<Drill>> GetAllDrillsAsync()
         {
-            throw new NotImplementedException();
-            //return await _context.Drills.ToListAsync();
+            return await _context.Drills.ToListAsync();
         }
-
-        public Task<IEnumerable<Tap>> GetAllTapsAsync()
+        
+        public async Task<IEnumerable<Tap>> GetAllTapsAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Taps.ToListAsync();
         }
-
-        public Task<Drill> GetDrillByIdAsync(int id)
+        
+        public async Task<Drill?> GetDrillByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Drills.FindAsync(id);
         }
-
-        public Task<Tap> GetTapByIdAsync(int id)
+        
+        public async Task<Tap?> GetTapByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Taps.FindAsync(id);
+        }
+        
+        public async Task AddDrillAsync(Drill drill)
+        {
+            _context.Drills.Add(drill);
+            await _context.SaveChangesAsync();
+        }
+        
+        public async Task AddTapAsync(Tap tap)
+        {
+            _context.Taps.Add(tap);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -7,5 +7,6 @@ namespace ManufacturingProcessMVC.Services
         Task<ManufacturingProcess> CreateProcessAsync(int drillId, int tapId);
         Task ExecuteProcessAsync(int processId);
         Task<IEnumerable<ManufacturingProcess>> GetAllProcessesAsync();
+        Task<ManufacturingProcess?> GetProcessByIdAsync(int id);
     }
 }
